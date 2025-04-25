@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rojek 网站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 自定义动画 */
+        @keyframes neonGlow {
+            0% {
+                box-shadow: 0 0 10px #00f, 0 0 20px #00f, 0 0 30px #00f;
+            }
+            50% {
+                box-shadow: 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
+            }
+            100% {
+                box-shadow: 0 0 10px #00f, 0 0 20px #00f, 0 0 30px #00f;
+            }
+        }
+
+        /* 评论框动画 */
+        @keyframes slideIn {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* 喝水按钮动画 */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* 小人尿尿动画 */
+        @keyframes peeAnimation {
+            0% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(1.2);
+            }
+            100% {
+                transform: scaleY(1);
+            }
+        }
+
+        .pee-icon {
+            display: none;
+            animation: peeAnimation 1s infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white font-sans">
+    <!-- 导航栏 -->
+    <nav class="bg-blue-900 p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold">欢迎来到 rojek 网站</h1>
+            <ul class="flex space-x-4">
+                <li><a href="#" class="hover:text-blue-300">首页</a></li>
+                <li><a href="#" class="hover:text-blue-300">文章</a></li>
+                <li><a href="#" class="hover:text-blue-300">关于</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 博客内容 -->
+    <div class="container mx-auto p-8">
+        <article class="bg-gray-800 p-6 rounded-md shadow-md mb-8 animate__animated animate__fadeIn">
+            <h2 class="text-2xl font-bold mb-2">博客文章标题</h2>
+            <p class="text-gray-300">这是一篇精彩的博客文章内容，这里有很多有趣的信息。</p>
+        </article>
+
+        <!-- 评论区 -->
+        <div id="comments" class="bg-gray-800 p-6 rounded-md shadow-md animate__animated animate__fadeInUp">
+            <h3 class="text-xl font-bold mb-4">评论区</h3>
+            <div id="comment-list" class="space-y-4">
+                <!-- 这里会动态添加评论 -->
+            </div>
+            <form id="comment-form" class="mt-6">
+                <input type="text" id="comment-input"
+                    class="w-full p-2 bg-gray-700 text-white rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="发表评论...">
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300">提交评论</button>
+            </form>
+        </div>
+
+        <!-- 喝水提醒按钮 -->
+        <button id="drink-water-button"
+            class="mt-8 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-green-300 animate-pulse">提醒喝水</button>
+
+        <!-- 上厕所尿尿按钮 -->
+        <button id="pee-button"
+            class="mt-8 bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 animate-pulse">上厕所尿尿</button>
+        <i class="fas fa-male pee-icon text-5xl"></i>
+    </div>
+
+    <!-- 喝水音效 -->
+    <audio id="drink-sound" src="y.wav" preload="auto"></audio>
+    <!-- 冲马桶音效 -->
+    <audio id="flush-sound" src="v.wav" preload="auto"></audio>
+
+    <script>
+        const commentList = document.getElementById('comment-list');
+        const commentForm = document.getElementById('comment-form');
+        const commentInput = document.getElementById('comment-input');
+        const drinkWaterButton = document.getElementById('drink-water-button');
+        const drinkSound = document.getElementById('drink-sound');
+        const peeButton = document.getElementById('pee-button');
+        const flushSound = document.getElementById('flush-sound');
+        const peeIcon = document.querySelector('.pee-icon');
+
+        // 处理评论提交
+        commentForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const commentText = commentInput.value;
+            if (commentText.trim() !== '') {
+                const commentElement = document.createElement('div');
+                commentElement.classList.add('bg-gray-700', 'p-4', 'rounded-md', 'animate-slideIn');
+                commentElement.innerHTML = `<p class="text-gray-300">${commentText}</p>`;
+                commentList.appendChild(commentElement);
+                commentInput.value = '';
+            }
+        });
+
+        // 处理喝水提醒按钮点击事件
+        drinkWaterButton.addEventListener('click', function () {
+            drinkSound.play();
+        });
+
+        // 处理上厕所尿尿按钮点击事件
+        peeButton.addEventListener('click', function () {
+            flushSound.play();
+            peeIcon.style.display = 'inline-block';
+            setTimeout(() => {
+                peeIcon.style.display = 'none';
+            }, 3000);
+        });
+    </script>
+</body>
+
+</html>
+    
